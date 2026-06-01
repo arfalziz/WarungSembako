@@ -27,11 +27,7 @@ Backend service untuk aplikasi Warung Sembako, dibangun menggunakan **Node.js, F
 
 2. **Konfigurasi Environment Variables:**
    Buat file `.env` di direktori utama (root) dengan contoh konfigurasi sebagai berikut:
-   ```env
-   DATABASE_URL="mysql://root:@localhost:3306/db_Warung_Sembako"
-   PORT=3000
-   JWT_SECRET="kunci_rahasia_jwt_anda_disini"
-   ```
+   
 
 3. **Inisialisasi & Sinkronisasi Database:**
    Generate dan dorong skema database Drizzle ke MySQL:
