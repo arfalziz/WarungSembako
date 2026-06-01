@@ -1,14 +1,31 @@
-import Fastify from 'fastify';
+import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
+import fastifyJwt from '@fastify/jwt';
 import 'dotenv/config';
+import router from './routes';
+import './types/fastify.d'; // Ensure types are loaded
 
 const fastify = Fastify({
   logger: true,
 });
 
-fastify.get('/', async (request, reply) => {
-  return { message: 'Server is running!' };
+// Register JWT Plugin
+fastify.register(fastifyJwt, {
+  secret: process.env.JWT_SECRET || 'supersecret_fallback_key',
 });
 
+// Add authenticate decorator
+fastify.decorate('authenticate', async (request: FastifyRequest, reply: FastifyReply) => {
+  try {
+    await request.jwtVerify();
+  } catch (err) {
+    reply.send(err);
+  }
+});
+
+// Register API Routes
+fastify.register(router);
+
+// Health check route
 fastify.get('/ping', async (request, reply) => {
   return { status: 'OK' };
 });
